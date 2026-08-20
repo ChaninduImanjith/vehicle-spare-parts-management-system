@@ -1,0 +1,17 @@
+# Local environment / secrets
+config/config.local.php
+.env
+.env.*
+
+# User uploads
+uploads/products/*
+!uploads/products/.gitkeep
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
