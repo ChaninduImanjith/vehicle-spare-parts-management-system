@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/admin-auth.php';
-
 requireAdmin();
 
 require_once __DIR__ . '/../config/database.php';
@@ -20,7 +19,7 @@ $orderCount = (int) $pdo
     ->query('SELECT COUNT(*) FROM customer_order')
     ->fetchColumn();
 
-$requestCount = (int) $pdo
+$pendingRequestCount = (int) $pdo
     ->query(
         "SELECT COUNT(*)
          FROM product_request
@@ -28,93 +27,228 @@ $requestCount = (int) $pdo
     )
     ->fetchColumn();
 
+$lowStockCount = (int) $pdo
+    ->query(
+        "SELECT COUNT(*)
+         FROM spare_part
+         WHERE stock_qty <= reorder_level
+         AND status = 'ACTIVE'"
+    )
+    ->fetchColumn();
+
+$totalSales = (float) $pdo
+    ->query(
+        "SELECT COALESCE(SUM(amount), 0)
+         FROM payment
+         WHERE status = 'PAID'"
+    )
+    ->fetchColumn();
+
+$recentOrdersStmt = $pdo->query(
+    "SELECT
+        co.order_id,
+        ru.username,
+        co.final_amount,
+        co.status,
+        co.order_date
+     FROM customer_order co
+     INNER JOIN registered_user ru
+        ON ru.user_id = co.user_id
+     ORDER BY co.order_date DESC
+     LIMIT 5"
+);
+
+$recentOrders = $recentOrdersStmt->fetchAll();
+
+$pageTitle = 'Dashboard';
+
+require_once __DIR__ . '/includes/header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<div class="page-header">
 
-<head>
+    <div>
 
-    <meta charset="UTF-8">
+        <h1>Admin Dashboard</h1>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        <p>
+            Welcome,
+            <?= e($_SESSION['admin_name'] ?? 'Admin') ?>
+        </p>
 
-    <title>Admin Dashboard</title>
+    </div>
 
-    <link
-        rel="stylesheet"
-        href="../assets/css/admin.css"
-    >
+</div>
 
-</head>
 
-<body>
+<section class="dashboard-grid">
 
-<main class="dashboard-container">
+    <div class="dashboard-card">
 
-    <header class="dashboard-header">
+        <span class="card-label">
+            Spare Parts
+        </span>
 
-        <div>
+        <strong>
+            <?= $productCount ?>
+        </strong>
 
-            <h1>Admin Dashboard</h1>
+    </div>
 
-            <p>
-                Welcome
-                <?= htmlspecialchars(
-                    $_SESSION['admin_name'] ?? 'Admin'
-                ) ?>
-            </p>
+
+    <div class="dashboard-card">
+
+        <span class="card-label">
+            Registered Customers
+        </span>
+
+        <strong>
+            <?= $userCount ?>
+        </strong>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <span class="card-label">
+            Orders
+        </span>
+
+        <strong>
+            <?= $orderCount ?>
+        </strong>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <span class="card-label">
+            Pending Requests
+        </span>
+
+        <strong>
+            <?= $pendingRequestCount ?>
+        </strong>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <span class="card-label">
+            Low Stock Parts
+        </span>
+
+        <strong>
+            <?= $lowStockCount ?>
+        </strong>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <span class="card-label">
+            Total Sales
+        </span>
+
+        <strong>
+            <?= formatCurrency($totalSales) ?>
+        </strong>
+
+    </div>
+
+</section>
+
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <h2>Recent Orders</h2>
+
+    </div>
+
+
+    <?php if (empty($recentOrders)): ?>
+
+        <div class="empty-state">
+
+            <p>No orders available yet.</p>
 
         </div>
 
-        <a href="logout.php">
-            Logout
-        </a>
+    <?php else: ?>
 
-    </header>
+        <div class="table-wrapper">
 
-    <p>
-    <a href="/admin/product-requests/index.php">
-        Manage Product Requests
-    </a>
-</p>
+            <table class="admin-table">
 
-    <section class="dashboard-grid">
+                <thead>
 
-        <div class="dashboard-card">
+                <tr>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
 
-            <h2><?= $productCount ?></h2>
-            <p>Spare Parts</p>
+                </thead>
+
+                <tbody>
+
+                <?php foreach ($recentOrders as $order): ?>
+
+                    <tr>
+
+                        <td>
+                            #<?= (int) $order['order_id'] ?>
+                        </td>
+
+                        <td>
+                            <?= e($order['username']) ?>
+                        </td>
+
+                        <td>
+                            <?= formatCurrency(
+                                (float) $order['final_amount']
+                            ) ?>
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="status-badge
+                                <?= e(statusClass($order['status'])) ?>"
+                            >
+
+                                <?= e($order['status']) ?>
+
+                            </span>
+
+                        </td>
+
+                        <td>
+                            <?= e($order['order_date']) ?>
+                        </td>
+
+                    </tr>
+
+                <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
 
         </div>
 
-        <div class="dashboard-card">
+    <?php endif; ?>
 
-            <h2><?= $userCount ?></h2>
-            <p>Registered Customers</p>
+</section>
 
-        </div>
 
-        <div class="dashboard-card">
-
-            <h2><?= $orderCount ?></h2>
-            <p>Orders</p>
-
-        </div>
-
-        <div class="dashboard-card">
-
-            <h2><?= $requestCount ?></h2>
-            <p>Pending Requests</p>
-
-        </div>
-
-    </section>
-
-</main>
-
-</body>
-</html>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
