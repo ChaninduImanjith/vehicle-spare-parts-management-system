@@ -293,13 +293,6 @@ CREATE TABLE search_log (
         ON UPDATE CASCADE
         ON DELETE SET NULL,
 
-    CONSTRAINT chk_search_log_owner
-        CHECK (
-            (user_id IS NOT NULL AND session_id IS NULL)
-            OR
-            (user_id IS NULL AND session_id IS NOT NULL)
-        ),
-
     CONSTRAINT chk_search_log_price
         CHECK (
             price_min IS NULL
