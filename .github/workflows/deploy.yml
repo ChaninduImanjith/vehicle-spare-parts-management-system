@@ -29,7 +29,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check for FTP Secrets
+        id: check_secrets
+        run: |
+          if [ -z "${{ secrets.FTP_SERVER }}" ]; then
+            echo "Secrets are not set. Skipping deployment."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Deploy via FTP
+        if: steps.check_secrets.outputs.skip == 'false'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server:          ${{ secrets.FTP_SERVER }}
