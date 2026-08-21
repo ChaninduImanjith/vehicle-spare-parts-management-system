@@ -1,0 +1,436 @@
+/* =====================================================
+   Vehicle Spare Parts — Store Specific CSS
+   ===================================================== */
+
+/* ── Hero Section ── */
+.hero {
+    background: linear-gradient(135deg, var(--secondary) 0%, #1e3a5f 100%);
+    color: white;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none"/><path d="M10 10h80v80H10z" stroke="rgba(255,255,255,0.05)" fill="none"/></svg>') repeat;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.hero-content {
+    max-width: 600px;
+    position: relative;
+    z-index: 10;
+}
+
+.hero h1 {
+    color: white;
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.hero p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 32px;
+}
+
+/* ── Search Bar in Hero ── */
+.hero-search {
+    background: white;
+    padding: 8px;
+    border-radius: var(--radius-full);
+    display: flex;
+    box-shadow: var(--shadow-lg);
+}
+
+.hero-search input {
+    flex: 1;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+    color: var(--text-main);
+}
+
+.hero-search .btn {
+    border-radius: var(--radius-full);
+    padding: 12px 32px;
+}
+
+/* ── Section Headings ── */
+.section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.section-desc {
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+/* ── Product Grid & Cards ── */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-light);
+}
+
+.product-image {
+    aspect-ratio: 4/3;
+    background: var(--bg-surface-alt);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-badges {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.product-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-brand {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.product-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.product-title a {
+    color: var(--text-main);
+}
+
+.product-title a:hover {
+    color: var(--primary);
+}
+
+.product-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.product-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.product-price {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+/* ── Shop Layout ── */
+.shop-layout {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+}
+
+.shop-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.shop-main {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── Filters ── */
+.filter-widget {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.filter-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+/* ── Product Details Page ── */
+.product-details-container {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 40px;
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.pd-image-gallery {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--bg-surface-alt);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pd-image-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pd-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.pd-brand {
+    color: var(--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.pd-title {
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+
+.pd-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.pd-price {
+    font-size: 32px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+.pd-desc {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    font-size: 16px;
+}
+
+.pd-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-md);
+}
+
+.pd-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pd-meta-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.pd-meta-value {
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.pd-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: auto;
+}
+
+.qty-input {
+    display: flex;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    width: 140px;
+}
+
+.qty-btn {
+    background: transparent;
+    border: none;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-main);
+    transition: background 0.2s;
+}
+
+.qty-btn:hover {
+    background: var(--bg-surface-alt);
+}
+
+.qty-input input {
+    flex: 1;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+}
+
+/* ── Compatibility Section ── */
+.compatibility-section {
+    margin: 40px 0;
+}
+
+.compatibility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.compat-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 992px) {
+    .shop-layout {
+        flex-direction: column;
+    }
+    .shop-sidebar {
+        width: 100%;
+    }
+    .product-details-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 36px;
+    }
+    .hero-search {
+        flex-direction: column;
+        border-radius: var(--radius-md);
+        padding: 12px;
+    }
+    .hero-search .btn {
+        border-radius: var(--radius-sm);
+    }
+    .pd-actions {
+        flex-direction: column;
+    }
+    .qty-input {
+        width: 100%;
+    }
+}
