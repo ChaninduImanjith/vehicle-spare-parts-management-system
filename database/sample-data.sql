@@ -293,3 +293,91 @@ UPDATE spare_part SET image_url = '/assets/images/products/ngk_spark_plug.png' W
 UPDATE spare_part SET image_url = '/assets/images/products/mann_oil_filter.png' WHERE part_id = 9;
 UPDATE spare_part SET image_url = '/assets/images/products/bosch_shock_absorber.png' WHERE part_id = 12;
 UPDATE spare_part SET image_url = '/assets/images/products/bosch_h4_bulb.png' WHERE part_id = 14;
+
+-- ============================================================
+-- Additional Parts (Batch 2)
+-- ============================================================
+
+INSERT IGNORE INTO spare_part
+    (category_id, brand_id, supplier_id, part_name, part_number, oem_number,
+     description, price, size, stock_qty, min_stock_level, reorder_level, status, image_url)
+VALUES
+    -- Brakes (cat 1)
+    (1, 4, 5, 'Brembo Brake Rotor Disc', 'BD-BRM-002', '0986479111',
+     'High-performance vented brake rotor for enhanced stopping power.',
+     7500.00, '280mm', 18, 4, 8, 'ACTIVE', '/assets/images/products/brembo_brake_rotor.png'),
+
+    -- Engine (cat 2)
+    (2, 6, 1, 'Aisin Engine Mount', 'EM-AIS-001', '12361-16290',
+     'Durable rubber engine mount to reduce vibration.',
+     4200.00, 'Standard', 14, 3, 5, 'ACTIVE', '/assets/images/products/aisin_engine_mount.png'),
+
+    -- Electrical / Ignition (cat 3)
+    (3, 9, 2, 'ACDelco Gold Car Battery', 'BAT-ACD-001', '34AGM',
+     'Reliable 12V automotive battery with high cranking amps.',
+     25000.00, '12V 65Ah', 22, 5, 10, 'ACTIVE', '/assets/images/products/acdelco_car_battery.png'),
+
+    -- Filters (cat 4)
+    (4, 5, 2, 'Mann Cabin Air Filter', 'CF-MAN-001', 'CUK 19 004',
+     'Activated carbon cabin filter for clean interior air.',
+     2100.00, 'Standard', 45, 10, 15, 'ACTIVE', '/assets/images/products/mann_cabin_filter.png'),
+
+    -- Suspension (cat 5)
+    (5, 7, 4, 'Mobis Lower Control Arm', 'CA-MBS-001', '54500-2K000',
+     'Genuine front lower control arm assembly with bushings.',
+     12500.00, 'Front Left', 8, 2, 4, 'ACTIVE', '/assets/images/products/mobis_control_arm.png'),
+
+    -- Transmission (cat 6)
+    (6, 10, 1, 'Exedy Clutch Kit', 'CK-EXD-001', 'HCK2043',
+     'Complete clutch kit including disc and pressure plate.',
+     18000.00, '200mm', 12, 2, 4, 'ACTIVE', '/assets/images/products/exedy_clutch_kit.png'),
+
+    -- Lighting (cat 7)
+    (7, 1, 1, 'Denso LED Headlight Bulb', 'LED-DNS-001', '0986AL1513',
+     'Ultra-bright white LED headlight bulb upgrade.',
+     6800.00, 'H4 LED', 35, 8, 12, 'ACTIVE', NULL),
+
+    -- Body (cat 8)
+    (8, 7, 4, 'Mobis Front Bumper Cover', 'FB-MBS-001', '86511-1R000',
+     'Primed front bumper fascia ready for painting.',
+     28000.00, 'Standard', 5, 1, 2, 'ACTIVE', NULL);
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'BD-BRM-002' AND vm.model_name IN ('Civic', 'Corolla', 'Accord');
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'EM-AIS-001' AND vm.model_name IN ('Corolla', 'Allion');
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'BAT-ACD-001' AND vm.model_name IN ('Corolla', 'Civic', '3 Series', 'Swift');
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'CF-MAN-001' AND vm.model_name IN ('Corolla', 'Allion', 'Prius');
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'CA-MBS-001' AND vm.model_name IN ('i20');
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'CK-EXD-001' AND vm.model_name IN ('Civic', 'Corolla', 'Demio');
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'LED-DNS-001' AND vm.model_name IN ('Corolla', 'Prius', 'Swift', 'X-Trail');
+
+INSERT IGNORE INTO part_vehicle_compatibility (part_id, model_id)
+SELECT sp.part_id, vm.model_id
+FROM spare_part sp, vehicle_model vm
+WHERE sp.part_number = 'FB-MBS-001' AND vm.model_name IN ('i20');
