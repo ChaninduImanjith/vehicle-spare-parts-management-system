@@ -283,3 +283,13 @@ VALUES ('PayHere', 'https://sandbox.payhere.lk/pay/checkout', TRUE, 2.00);
 -- ============================================================
 -- END OF SAMPLE DATA
 -- ============================================================
+
+-- ============================================================
+-- Apply Realistic Images
+-- ============================================================
+UPDATE spare_part SET image_url = '/assets/images/products/brembo_brake_pad.png' WHERE part_id IN (1, 2);
+UPDATE spare_part SET image_url = '/assets/images/products/denso_timing_belt.png' WHERE part_id = 4;
+UPDATE spare_part SET image_url = '/assets/images/products/ngk_spark_plug.png' WHERE part_id IN (6, 7);
+UPDATE spare_part SET image_url = '/assets/images/products/mann_oil_filter.png' WHERE part_id = 9;
+UPDATE spare_part SET image_url = '/assets/images/products/bosch_shock_absorber.png' WHERE part_id = 12;
+UPDATE spare_part SET image_url = '/assets/images/products/bosch_h4_bulb.png' WHERE part_id = 14;
