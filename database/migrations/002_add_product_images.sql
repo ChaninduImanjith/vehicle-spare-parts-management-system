@@ -107,7 +107,7 @@ VALUES
     -- Body (cat 8)
     (8, 7, 4, 'Mobis Rear Bumper Cover', 'RB-MBS-001', '86621-1R000',
      'Primed rear bumper fascia for Hyundai i20.',
-     24500.00, 'Standard', 4, 1, 2, 'ACTIVE', '/assets/images/products/mobis_front_bumper.jpg'),
+     24500.00, 'Standard', 4, 1, 2, 'ACTIVE', '/assets/images/products/mobis_rear_bumper.jpg'),
 
     (8, 7, 4, 'Mobis Hood Insulator Pad', 'HI-MBS-001', '811241R000',
      'Heat and noise insulation pad for engine hood.',
