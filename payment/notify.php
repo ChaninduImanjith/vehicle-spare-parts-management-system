@@ -34,8 +34,8 @@ if (($localMd5sig === $md5sig) && ($statusCode === 2)) {
         $pdo->beginTransaction();
         
         // Update Payment record
-        $updPay = $pdo->prepare('UPDATE payment SET payment_status = ? WHERE order_id = ?');
-        $updPay->execute(['COMPLETED', $orderId]);
+        $updPay = $pdo->prepare('UPDATE payment SET status = ?, paid_at = NOW() WHERE order_id = ?');
+        $updPay->execute(['PAID', $orderId]);
         
         // Update Order record
         $updOrder = $pdo->prepare('UPDATE customer_order SET status = ? WHERE order_id = ? AND status = ?');
@@ -52,7 +52,7 @@ if (($localMd5sig === $md5sig) && ($statusCode === 2)) {
         $pdo->beginTransaction();
         
         // Update Payment
-        $updPay = $pdo->prepare('UPDATE payment SET payment_status = ? WHERE order_id = ?');
+        $updPay = $pdo->prepare('UPDATE payment SET status = ? WHERE order_id = ?');
         $updPay->execute(['FAILED', $orderId]);
         
         // Update Order

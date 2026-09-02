@@ -33,10 +33,11 @@ $stmt = $pdo->prepare(
     "SELECT 
         o.*,
         u.username, u.email, u.phone as user_phone,
-        p.payment_method, p.payment_status, p.payment_date
+        pg.gateway_name AS payment_method, p.status AS payment_status, p.paid_at AS payment_date
      FROM customer_order o
      INNER JOIN registered_user u ON o.user_id = u.user_id
      LEFT JOIN payment p ON o.order_id = p.order_id
+     LEFT JOIN payment_gateway pg ON p.gateway_id = pg.gateway_id
      WHERE o.order_id = ?"
 );
 $stmt->execute([$orderId]);
@@ -172,9 +173,9 @@ require_once __DIR__ . '/../includes/header.php';
                         <?php 
                             $pStatus = $order['payment_status'] ?? 'UNKNOWN';
                             $pClass = match($pStatus) {
-                                'COMPLETED' => 'status-success',
+                                'PAID' => 'status-success',
                                 'PENDING' => 'status-warning',
-                                'FAILED', 'REFUNDED' => 'status-danger',
+                                'FAILED', 'REFUNDED', 'CANCELLED' => 'status-danger',
                                 default => 'status-default'
                             };
                         ?>

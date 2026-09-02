@@ -12,7 +12,7 @@ $userId = (int)$_SESSION['user_id'];
 $stmt = $pdo->prepare(
     "SELECT 
         o.order_id, o.order_date, o.total_amount, o.status,
-        p.payment_status
+        p.status AS payment_status
      FROM customer_order o
      LEFT JOIN payment p ON o.order_id = p.order_id
      WHERE o.user_id = ?
@@ -66,9 +66,9 @@ require_once __DIR__ . '/includes/header.php';
                                     <?php 
                                         $pStatus = $order['payment_status'] ?? 'UNKNOWN';
                                         $pClass = match($pStatus) {
-                                            'COMPLETED' => 'badge-success',
+                                            'PAID' => 'badge-success',
                                             'PENDING' => 'badge-warning',
-                                            'FAILED', 'REFUNDED' => 'badge-danger',
+                                            'FAILED', 'REFUNDED', 'CANCELLED' => 'badge-danger',
                                             default => ''
                                         };
                                     ?>

@@ -87,8 +87,8 @@ try {
     }
 
     // 3. Create initial Payment record (Status = PENDING)
-    $insPayment = $pdo->prepare('INSERT INTO payment (order_id, payment_method, amount, payment_status) VALUES (?, ?, ?, ?)');
-    $insPayment->execute([$orderId, 'ONLINE', $totalAmount, 'PENDING']);
+    $insPayment = $pdo->prepare('INSERT INTO payment (order_id, gateway_id, amount, status) VALUES (?, ?, ?, ?)');
+    $insPayment->execute([$orderId, 1, $totalAmount, 'PENDING']);
 
     $pdo->commit();
     
