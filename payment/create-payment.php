@@ -71,17 +71,18 @@ try {
 
     // 1. Create Order record (Status = PENDING)
     $shippingAddress = "$address, $city, $country";
-    $insOrder = $pdo->prepare('INSERT INTO customer_order (user_id, total_amount, shipping_address, status) VALUES (?, ?, ?, ?)');
-    $insOrder->execute([$userId, $totalAmount, $shippingAddress, 'PENDING']);
+    $insOrder = $pdo->prepare('INSERT INTO customer_order (user_id, total_amount, final_amount, shipping_address, status) VALUES (?, ?, ?, ?, ?)');
+    $insOrder->execute([$userId, $totalAmount, $totalAmount, $shippingAddress, 'PENDING']);
     $orderId = (int)$pdo->lastInsertId();
 
     // 2. Create Order Items and decrease stock
-    $insItem = $pdo->prepare('INSERT INTO order_item (order_id, part_id, quantity, unit_price) VALUES (?, ?, ?, ?)');
+    $insItem = $pdo->prepare('INSERT INTO order_item (order_id, part_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?)');
     $updStock = $pdo->prepare('UPDATE spare_part SET stock_qty = stock_qty - ? WHERE part_id = ?');
 
     $itemNames = [];
     foreach ($cartItems as $c) {
-        $insItem->execute([$orderId, $c['id'], $c['qty'], $c['price']]);
+        $itemSubtotal = $c['qty'] * $c['price'];
+        $insItem->execute([$orderId, $c['id'], $c['qty'], $c['price'], $itemSubtotal]);
         $updStock->execute([$c['qty'], $c['id']]);
         $itemNames[] = $c['name'];
     }
