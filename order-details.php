@@ -18,9 +18,10 @@ $userId = (int)$_SESSION['user_id'];
 $stmt = $pdo->prepare(
     "SELECT 
         o.*,
-        p.payment_method, p.payment_status, p.payment_date
+        pg.gateway_name AS payment_method, p.status AS payment_status, p.paid_at AS payment_date
      FROM customer_order o
      LEFT JOIN payment p ON o.order_id = p.order_id
+     LEFT JOIN payment_gateway pg ON p.gateway_id = pg.gateway_id
      WHERE o.order_id = ? AND o.user_id = ?"
 );
 $stmt->execute([$orderId, $userId]);
@@ -68,9 +69,9 @@ require_once __DIR__ . '/includes/header.php';
             <?php 
                 $pStatus = $order['payment_status'] ?? 'UNKNOWN';
                 $pClass = match($pStatus) {
-                    'COMPLETED' => 'badge-success',
+                    'PAID' => 'badge-success',
                     'PENDING' => 'badge-warning',
-                    'FAILED', 'REFUNDED' => 'badge-danger',
+                    'FAILED', 'REFUNDED', 'CANCELLED' => 'badge-danger',
                     default => ''
                 };
             ?>
