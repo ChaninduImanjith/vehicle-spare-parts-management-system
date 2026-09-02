@@ -85,6 +85,142 @@
     font-size: 16px;
 }
 
+/* ── Category Image Cards ── */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 70px;
+}
+
+.category-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    display: block;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    text-decoration: none;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+}
+
+.category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: brightness(0.72);
+}
+
+.category-card:hover img {
+    transform: scale(1.08);
+    filter: brightness(0.55);
+}
+
+.category-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px;
+}
+
+.category-card-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.category-card-name {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    line-height: 1.2;
+}
+
+.category-card-count {
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* ── Trust / Stats Bar ── */
+.trust-bar {
+    background: var(--secondary);
+    color: white;
+    padding: 28px 0;
+    margin-bottom: 0;
+}
+
+.trust-bar-inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+}
+
+.trust-item-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--primary);
+    display: block;
+}
+
+.trust-item-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 2px;
+    display: block;
+}
+
+.trust-item-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* ── Brand Logos Strip ── */
+.brands-strip {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 60px;
+}
+
+.brands-strip-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.brand-logo-pill {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+}
+
+.brand-logo-pill:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
 /* ── Product Grid & Cards ── */
 .product-grid {
     display: grid;
@@ -413,6 +549,9 @@
     .product-details-container {
         grid-template-columns: 1fr;
     }
+    .trust-bar-inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
@@ -432,5 +571,8 @@
     }
     .qty-input {
         width: 100%;
+    }
+    .brands-strip-inner {
+        gap: 16px;
     }
 }
